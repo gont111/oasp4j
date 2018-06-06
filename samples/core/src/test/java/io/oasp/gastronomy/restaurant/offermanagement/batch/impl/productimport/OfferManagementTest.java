@@ -2,6 +2,7 @@ package io.oasp.gastronomy.restaurant.offermanagement.batch.impl.productimport;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,6 +22,8 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.Offermanagement;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.OfferEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.OfferFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.OfferSortBy;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SpecialEto;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.WeeklyPeriodEto;
 import io.oasp.module.jpa.common.api.to.OrderDirection;
 import io.oasp.module.test.common.base.ComponentTest;
 
@@ -49,7 +52,7 @@ public class OfferManagementTest extends ComponentTest {
     this.flyway.clean();
     this.flyway.migrate();
 
-    TestUtil.login("waiter", PermissionConstants.FIND_OFFER);
+    TestUtil.login("waiter", PermissionConstants.SAVE_OFFER);
   }
 
   /**
@@ -60,6 +63,32 @@ public class OfferManagementTest extends ComponentTest {
 
     super.doTearDown();
     TestUtil.logout();
+  }
+
+  @Test
+  public void testFindSpecials() {
+
+    WeeklyPeriodEto weeklyPeriodEto = new WeeklyPeriodEto();
+    weeklyPeriodEto.setStartingDay(DayOfWeek.TUESDAY);
+    weeklyPeriodEto.setEndingDay(DayOfWeek.FRIDAY);
+    weeklyPeriodEto.setStartingHour(11);
+    weeklyPeriodEto.setEndingHour(17);
+
+    SpecialEto specialEto = new SpecialEto();
+    specialEto.setName("special 1");
+    specialEto.setOfferId(1L);
+    specialEto.setSpecialPrice(new Money(123.45));
+    specialEto.setActivePeriod(weeklyPeriodEto);
+
+    SpecialEto resultspecialEto = this.offerManagement.saveSpecial(specialEto);
+
+    assertThat(resultspecialEto.getId()).isNotNull();
+
+    resultspecialEto = this.offerManagement.findSpecial(resultspecialEto.getId());
+
+    assertThat(resultspecialEto.getId()).isNotNull();
+    assertEquals(resultspecialEto.getName(), "special 1");
+
   }
 
   /**
