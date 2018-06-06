@@ -49,6 +49,14 @@
       <permission id="FindOrderPosition"/>
     </permissions>
   </group>
+  <group id="Manager" type="role">
+    <inherits>
+      <group-ref>ReadMasterData</group-ref>
+    </inherits>
+    <permissions>
+      <permission id="FindSuppliers"/>
+    </permissions>
+  </group>
   <group id="Chief" type="role">
     <inherits>
       <group-ref>Waiter</group-ref>

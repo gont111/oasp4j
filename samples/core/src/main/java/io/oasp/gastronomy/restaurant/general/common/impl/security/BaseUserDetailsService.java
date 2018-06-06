@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import io.oasp.gastronomy.restaurant.general.common.api.UserProfile;
 import io.oasp.gastronomy.restaurant.general.common.api.Usermanagement;
 import io.oasp.gastronomy.restaurant.general.common.api.security.UserData;
+import io.oasp.gastronomy.restaurant.general.service.impl.config.BaseWebSecurityConfig;
 import io.oasp.module.security.common.api.accesscontrol.AccessControl;
 import io.oasp.module.security.common.api.accesscontrol.AccessControlProvider;
 import io.oasp.module.security.common.api.accesscontrol.PrincipalAccessControlProvider;
@@ -78,7 +79,8 @@ public class BaseUserDetailsService implements UserDetailsService {
     try {
       // amBuilder uses the InMemoryUserDetailsManager, because it is configured in BaseWebSecurityConfig
       user = getAmBuilder().getDefaultUserDetailsService().loadUserByUsername(username);
-      UserData userData = new UserData(user.getUsername(), user.getPassword(), authorities);
+      UserData userData = new UserData(user.getUsername(), /* user.getPassword() */
+          principal.getPass(), authorities);
       userData.setUserProfile(principal);
       return userData;
     } catch (Exception e) {

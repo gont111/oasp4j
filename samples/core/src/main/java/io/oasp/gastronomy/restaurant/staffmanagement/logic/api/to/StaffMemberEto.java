@@ -1,10 +1,10 @@
 package io.oasp.gastronomy.restaurant.staffmanagement.logic.api.to;
 
+import java.util.Locale;
+
 import io.oasp.gastronomy.restaurant.general.common.api.datatype.Role;
 import io.oasp.gastronomy.restaurant.staffmanagement.common.api.StaffMember;
 import io.oasp.module.basic.common.api.to.AbstractEto;
-
-import java.util.Locale;
 
 /**
  * The {@link AbstractEto ETO} for a {@link StaffMember}.
@@ -24,6 +24,8 @@ public class StaffMemberEto extends AbstractEto implements StaffMember {
   private Role role;
 
   private Locale language;
+
+  private String password;
 
   /**
    * The constructor.
@@ -95,5 +97,10 @@ public class StaffMemberEto extends AbstractEto implements StaffMember {
   public void setLanguage(Locale language) {
 
     this.language = language;
+  }
+
+  public String getPass() {
+
+    return this.password;
   }
 }
