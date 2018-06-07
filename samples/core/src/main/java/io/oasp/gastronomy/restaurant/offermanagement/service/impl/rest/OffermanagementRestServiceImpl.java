@@ -19,6 +19,7 @@ import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 
+import io.oasp.gastronomy.restaurant.general.common.api.datatype.Money;
 import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.Offermanagement;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.DrinkEto;
@@ -32,6 +33,7 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSortBy;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SpecialEto;
 import io.oasp.gastronomy.restaurant.offermanagement.service.api.rest.OffermanagementRestService;
 import io.oasp.module.jpa.common.api.to.PaginatedListTo;
 
@@ -49,6 +51,47 @@ public class OffermanagementRestServiceImpl implements OffermanagementRestServic
   public void setOffermanagement(Offermanagement offerManagement) {
 
     this.offermanagement = offerManagement;
+  }
+
+  @Override
+  public SpecialEto getSpecial(long id) {
+
+    SpecialEto s = this.offermanagement.findSpecial(id);
+
+    if (s == null) {
+      s = new SpecialEto();
+      s.setId(id);
+      s.setName("aaaa");
+      s.setSpecialPrice(new Money(222));
+    }
+
+    return s;
+  }
+
+  @Override
+  public SpecialEto saveSpecial(SpecialEto special) {
+
+    return this.offermanagement.saveSpecial(special);
+  }
+
+  @Override
+  @Deprecated
+  public SpecialEto updateSpecial(SpecialEto special) {
+
+    return this.offermanagement.saveSpecial(special);
+  }
+
+  @Override
+  @Deprecated
+  public List<SpecialEto> getAllSpecials() {
+
+    return null;
+  }
+
+  @Override
+  public void deleteSpecial(long id) {
+
+    this.offermanagement.deleteSpecial(id);
   }
 
   @Override

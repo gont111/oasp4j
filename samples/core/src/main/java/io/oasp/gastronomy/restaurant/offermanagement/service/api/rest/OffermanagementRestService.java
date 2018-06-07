@@ -34,6 +34,7 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSortBy;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SpecialEto;
 import io.oasp.gastronomy.restaurant.offermanagement.service.impl.rest.OffermanagementRestServiceImpl;
 import io.oasp.module.jpa.common.api.to.PaginatedListTo;
 
@@ -48,6 +49,28 @@ import io.oasp.module.jpa.common.api.to.PaginatedListTo;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface OffermanagementRestService extends RestService {
+
+  @GET
+  @Path("/special/{id}")
+  SpecialEto getSpecial(@PathParam("id") long id);
+
+  @POST
+  @Path("/special/")
+  public SpecialEto saveSpecial(SpecialEto special);
+
+  @PUT
+  @Path("/special/{id}")
+  @Deprecated
+  SpecialEto updateSpecial(SpecialEto special);
+
+  @GET
+  @Path("/special/")
+  @Deprecated
+  public List<SpecialEto> getAllSpecials();
+
+  @DELETE
+  @Path("/special/{id}")
+  void deleteSpecial(@PathParam("id") long id);
 
   /**
    * Delegates to {@link Offermanagement#findOffer}.
@@ -243,7 +266,7 @@ public interface OffermanagementRestService extends RestService {
   public void updateProductPicture(@PathParam("id") long productId,
       @Multipart(value = "binaryObjectEto", type = MediaType.APPLICATION_JSON) BinaryObjectEto binaryObjectEto,
       @Multipart(value = "blob", type = MediaType.APPLICATION_OCTET_STREAM) InputStream picture)
-          throws SerialException, SQLException, IOException;
+      throws SerialException, SQLException, IOException;
 
   @SuppressWarnings("javadoc")
   @Produces("multipart/mixed")
